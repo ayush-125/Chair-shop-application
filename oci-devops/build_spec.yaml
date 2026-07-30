@@ -8,7 +8,7 @@ failImmediatelyOnError: true
 # OCI DevOps supplies OCI_BUILD_RUN_ID for an immutable image tag.
 env:
   variables:
-    OCIR_REGISTRY: "<region-key>.ocir.io/<tenancy-namespace>"
+    OCIR_REGISTRY: "iad.ocir.io/ocuocictrng4"
 
 steps:
   - type: Command
@@ -23,10 +23,10 @@ steps:
 outputArtifacts:
   - name: chair-shop-api-image
     type: DOCKER_IMAGE
-    location: "<region-key>.ocir.io/<tenancy-namespace>/chair-shop-api:${OCI_BUILD_RUN_ID}"
+    location: "iad.ocir.io/ocuocictrng4/chair-shop-api:${OCI_BUILD_RUN_ID}"
   - name: chair-shop-web-image
     type: DOCKER_IMAGE
-    location: "<region-key>.ocir.io/<tenancy-namespace>/chair-shop-web:${OCI_BUILD_RUN_ID}"
+    location: "iad.ocir.io/ocuocictrng4/chair-shop-web:${OCI_BUILD_RUN_ID}"
   - name: chair-shop-manifest
     type: BINARY
     location: oci-devops/k8s/app.yaml
