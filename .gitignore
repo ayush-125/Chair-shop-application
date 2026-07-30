@@ -8,6 +8,8 @@ frontend/coverage/
 backend/target/
 backend/data/*
 !backend/data/.gitkeep
+*.db-shm
+*.db-wal
 
 # Local environment files and logs
 .env

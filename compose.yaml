@@ -1,0 +1,21 @@
+services:
+  backend:
+    build: ./backend
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:sqlite:/app/data/cedar-form.db
+    volumes:
+      - chair_shop_data:/app/data
+    expose:
+      - "8080"
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    depends_on:
+      - backend
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+
+volumes:
+  chair_shop_data:
