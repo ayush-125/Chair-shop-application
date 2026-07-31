@@ -7,26 +7,32 @@ failImmediatelyOnError: true
 # Replace the placeholder with your OCIR region and tenancy namespace.
 # OCI DevOps supplies OCI_BUILD_RUN_ID for an immutable image tag.
 env:
-  variables:
-    OCIR_REGISTRY: "iad.ocir.io/ocuocictrng4"
+  exportedVariables:
+    - IMAGE_TAG
+    - OCIR_REGISTRY
 
 steps:
   - type: Command
+    name: Define build values
+    command: |
+      export IMAGE_TAG="${OCI_BUILD_RUN_ID}"
+      export OCIR_REGISTRY="iad.ocir.io/ocuocictrng4"
+  - type: Command
     name: Build backend image
     command: |
-      docker build -t "${OCIR_REGISTRY}/chair-shop-api:${OCI_BUILD_RUN_ID}" backend
+      docker build -t "chair-shop-api:latest" backend
   - type: Command
     name: Build frontend image
     command: |
-      docker build -t "${OCIR_REGISTRY}/chair-shop-web:${OCI_BUILD_RUN_ID}" frontend
+      docker build -t "chair-shop-web:latest" frontend
 
 outputArtifacts:
   - name: chair-shop-api-image
     type: DOCKER_IMAGE
-    location: "iad.ocir.io/ocuocictrng4/chair-shop-api:${OCI_BUILD_RUN_ID}"
+    location: "chair-shop-api:latest"
   - name: chair-shop-web-image
     type: DOCKER_IMAGE
-    location: "iad.ocir.io/ocuocictrng4/chair-shop-web:${OCI_BUILD_RUN_ID}"
+    location: "chair-shop-web:latest"
   - name: chair-shop-manifest
     type: BINARY
     location: oci-devops/k8s/app.yaml
